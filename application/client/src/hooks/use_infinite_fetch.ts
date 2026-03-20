@@ -40,7 +40,7 @@ export function useInfiniteFetch<T>(
       (allData) => {
         setResult((cur) => ({
           ...cur,
-          data: [...cur.data, ...allData.slice(offset, offset + LIMIT)],
+          data: [...cur.data, ...allData],
           isLoading: false,
         }));
         internalRef.current = {
