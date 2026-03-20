@@ -38,7 +38,7 @@ export const SoundPlayer = ({ sound }: Props) => {
   }, []);
 
   if (isLoading || data === null || blobUrl === null) {
-    return null;
+    return <div className="bg-cax-surface-subtle flex h-full w-full items-center justify-center" style={{ minHeight: "80px" }} />;
   }
 
   return (
