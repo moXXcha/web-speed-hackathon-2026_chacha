@@ -36,7 +36,7 @@ export function useInfiniteFetch<T>(
       offset,
     };
 
-    void fetcher(apiPath).then(
+    void fetcher(`${apiPath}?limit=${LIMIT}&offset=${offset}`).then(
       (allData) => {
         setResult((cur) => ({
           ...cur,
