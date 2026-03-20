@@ -36,7 +36,7 @@ soundRouter.post("/sounds", async (req, res) => {
 
   try {
     execSync(
-      `ffmpeg -i "${tmpInput}" -metadata "artist=${artist}" -metadata "title=${title}" -vn -y "${outputPath}"`,
+      `ffmpeg -i "${tmpInput}" -metadata "artist=${artist}" -metadata "title=${title}" -b:a 128k -vn -y "${outputPath}"`,
       { stdio: "pipe" },
     );
   } catch {

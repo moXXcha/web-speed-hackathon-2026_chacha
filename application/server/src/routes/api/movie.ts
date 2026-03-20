@@ -35,7 +35,7 @@ movieRouter.post("/movies", async (req, res) => {
   try {
     // ffmpegで先頭5秒、10fps、正方形クロップ、無音のMP4に変換
     execSync(
-      `ffmpeg -i "${tmpInput}" -t 5 -r 10 -vf "crop='min(iw,ih)':'min(iw,ih)'" -an -movflags faststart -pix_fmt yuv420p -y "${outputPath}"`,
+      `ffmpeg -i "${tmpInput}" -t 5 -r 10 -vf "crop='min(iw,ih)':'min(iw,ih)'" -b:v 300k -an -movflags faststart -pix_fmt yuv420p -y "${outputPath}"`,
       { stdio: "pipe" },
     );
   } catch {
