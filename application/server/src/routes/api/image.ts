@@ -30,10 +30,11 @@ imageRouter.post("/images", async (req, res) => {
 
   const imageId = uuidv4();
 
-  // WebP以外の場合はsharpで変換
-  const webpBuffer = type.ext === "webp"
-    ? req.body
-    : await sharp(req.body).webp({ quality: 80 }).toBuffer();
+  // リサイズ・WebP変換
+  const webpBuffer = await sharp(req.body)
+    .resize(800, undefined, { withoutEnlargement: true })
+    .webp({ quality: 70 })
+    .toBuffer();
 
   const filePath = path.resolve(UPLOAD_PATH, `./images/${imageId}.${EXTENSION}`);
   await fs.mkdir(path.resolve(UPLOAD_PATH, "images"), { recursive: true });
