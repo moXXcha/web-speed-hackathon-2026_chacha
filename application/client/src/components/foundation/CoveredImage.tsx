@@ -1,4 +1,4 @@
-import { MouseEvent, useCallback, useId } from "react";
+import { MouseEvent, useCallback, useEffect, useId, useState } from "react";
 
 import { Button } from "@web-speed-hackathon-2026/client/src/components/foundation/Button";
 import { Modal } from "@web-speed-hackathon-2026/client/src/components/modal/Modal";
@@ -16,13 +16,21 @@ export const CoveredImage = ({ src, alt }: Props) => {
   const handleDialogClick = useCallback((ev: MouseEvent<HTMLDialogElement>) => {
     ev.stopPropagation();
   }, []);
+  const [imgSrc, setImgSrc] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    const id = requestIdleCallback(() => {
+      setImgSrc(src);
+    }, { timeout: 5000 });
+    return () => cancelIdleCallback(id);
+  }, [src]);
 
   return (
     <div className="relative h-full w-full overflow-hidden">
       <img
         alt={alt}
         className="h-full w-full object-cover"
-        src={src}
+        src={imgSrc}
         loading="lazy"
       />
 
