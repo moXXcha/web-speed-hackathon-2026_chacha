@@ -12,25 +12,7 @@ interface Props {
 
 export const SoundPlayer = ({ sound }: Props) => {
   const soundUrl = getSoundPath(sound.id);
-  const containerRef = useRef<HTMLDivElement>(null);
   const [soundData, setSoundData] = useState<ArrayBuffer | null>(null);
-
-  useEffect(() => {
-    const el = containerRef.current;
-    if (!el) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry?.isIntersecting) {
-          observer.disconnect();
-          fetchBinary(soundUrl).then(setSoundData);
-        }
-      },
-      { rootMargin: "200px" },
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, [soundUrl]);
 
   const [currentTimeRatio, setCurrentTimeRatio] = useState(0);
   const handleTimeUpdate = useCallback<ReactEventHandler<HTMLAudioElement>>((ev) => {
@@ -46,13 +28,16 @@ export const SoundPlayer = ({ sound }: Props) => {
         audioRef.current?.pause();
       } else {
         audioRef.current?.play();
+        if (!soundData) {
+          fetchBinary(soundUrl).then(setSoundData);
+        }
       }
       return !isPlaying;
     });
-  }, []);
+  }, [soundData, soundUrl]);
 
   return (
-    <div ref={containerRef} className="bg-cax-surface-subtle flex h-full w-full items-center justify-center">
+    <div className="bg-cax-surface-subtle flex h-full w-full items-center justify-center">
       <audio ref={audioRef} loop={true} onTimeUpdate={handleTimeUpdate} src={soundUrl} preload="none" />
       <div className="p-2">
         <button

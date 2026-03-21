@@ -20,20 +20,10 @@ export const PausableMovie = ({ src, poster }: Props) => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    const el = containerRef.current;
-    if (!el) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry?.isIntersecting) {
-          setIsVisible(true);
-          observer.disconnect();
-        }
-      },
-      { rootMargin: "200px" },
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
+    const timer = setTimeout(() => {
+      setIsVisible(true);
+    }, 10000);
+    return () => clearTimeout(timer);
   }, []);
 
   useEffect(() => {
