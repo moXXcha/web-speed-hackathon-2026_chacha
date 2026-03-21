@@ -283,6 +283,9 @@ importers:
       '@web-speed-hackathon-2026/server':
         specifier: workspace:*
         version: 'link:'
+      bayesian-bm25:
+        specifier: 0.4.0
+        version: 0.4.0
       bcrypt:
         specifier: 6.0.0
         version: 6.0.0
